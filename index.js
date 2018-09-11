@@ -129,11 +129,17 @@ class BitcoinWallet {
   getUnspentOutputs() {
     return new Promise((resolve, reject) => {
       c_blockexplorer.getUnspentOutputs(this.keyChain.address).then((result) => {
+        console.log(result)
         resolve({
           utxos: result.unspent_outputs,
           satoshis: result.unspent_outputs.reduce((a, c) => a + c.value, 0)
         });
-      }).catch(err => reject(err));
+      }).catch(err => {
+        resolve({
+          utxos: [],
+          satoshis: 0
+        });
+      });
     })  
   }
 
